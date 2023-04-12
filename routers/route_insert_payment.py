@@ -10,10 +10,8 @@ router = APIRouter()
 
 
 # 支払い登録API
-@router.post("/api/insert/payment", response_model=InsertPayment)
-async def insert_payment(
-    request: Request, response: Response, data: InsertPaymentBody
-):
+@router.post("/api/v1/money/payment", response_model=InsertPayment)
+async def insert_payment(request: Request, response: Response, data: InsertPaymentBody):
     # zaimAPI(create insert/payment)呼び出し
     payment_data = zaim_insert_payment(
         datetime.strptime(data.date, "%Y-%m-%d"),
