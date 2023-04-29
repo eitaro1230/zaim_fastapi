@@ -123,29 +123,10 @@ def zaim_get_manual_all_data(
         params["start_date"] = start_date  # type: ignore
     if end_date:
         params["end_date"] = end_date  # type: ignore
+
     res = auth.get(url="https://api.zaim.net/v2/home/money", params=params)
     if res.status_code == 200:
         data = res.json()["money"]
         data_list = list(map(zaim_data_serializer, data))
         return data_list
     return False
-
-
-def zaim_insert_payment(date, amount, genre: str, from_account: str) -> dict | bool:
-    # zaimAPI(create insert/payment)呼び出し
-    res = api.insert_payment_simple(date, amount, genre, from_account)
-    if res.status_code == 200:
-        data = res.json()
-        # zaimに登録したidのみ抽出(削除する際に指定するidのため)
-        payment_id = data["money"]["id"]
-        return {
-            "payment_id": payment_id,
-            "genre": genre,
-            "amount": amount,
-            "date": str(date),
-            "from_account": from_account,
-        }
-    return False
-
-
-print(zaim_get_manual_all_data(start_date="2023-04-01"))

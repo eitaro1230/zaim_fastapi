@@ -1,14 +1,6 @@
+from typing import Literal
+
 from pydantic import BaseModel
-
-
-# MongoDBへ格納するスキーマ
-class InsertPayment(BaseModel):
-    id: str
-    payment_id: str
-    genre: str
-    amount: str
-    date: str
-    from_account: str
 
 
 # def insert_paymentを呼び出すスキーマ
@@ -17,6 +9,12 @@ class InsertPaymentBody(BaseModel):
     amount: str
     date: str
     from_account: str
+
+
+class GetMoneyBody(BaseModel):
+    mode: Literal["income", "payment", "transfer"] | None
+    start_date: str | None
+    end_date: str | None
 
 
 class SuccessMsg(BaseModel):
